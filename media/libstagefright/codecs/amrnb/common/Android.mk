@@ -70,5 +70,6 @@ LOCAL_CFLAGS := \
         -DOSCL_UNUSED_ARG= -DOSCL_IMPORT_REF= -DOSCL_EXPORT_REF=
 
 LOCAL_MODULE := libstagefright_amrnb_common
+LOCAL_MODULE_TAGS := optional
 
 include $(BUILD_SHARED_LIBRARY)

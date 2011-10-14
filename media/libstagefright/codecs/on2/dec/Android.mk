@@ -5,6 +5,7 @@ LOCAL_SRC_FILES := \
         VPXDecoder.cpp
 
 LOCAL_MODULE := libstagefright_vpxdec
+LOCAL_MODULE_TAGS := optional
 
 LOCAL_C_INCLUDES := \
         $(TOP)/frameworks/base/media/libstagefright/include \

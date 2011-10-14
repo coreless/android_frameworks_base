@@ -8,5 +8,6 @@ LOCAL_C_INCLUDES := \
         frameworks/base/media/libstagefright/include \
 
 LOCAL_MODULE := libstagefright_g711dec
+LOCAL_MODULE_TAGS := optional
 
 include $(BUILD_STATIC_LIBRARY)

@@ -14,6 +14,7 @@ LOCAL_SRC_FILES := \
  	src/vlc.cpp
 
 LOCAL_MODULE := libstagefright_avcdec
+LOCAL_MODULE_TAGS := optional
 
 LOCAL_C_INCLUDES := \
 	$(LOCAL_PATH)/src \
