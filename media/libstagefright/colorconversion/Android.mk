@@ -9,7 +9,7 @@ LOCAL_C_INCLUDES := \
         $(TOP)/frameworks/base/include/media/stagefright/openmax
 
 ifeq ($(TARGET_BOARD_PLATFORM),omap4)
-LOCAL_C_INCLUDES += hardware/ti/omx/ducati/domx/system/omx_core/inc
+LOCAL_C_INCLUDES += hardware/ti/omap4/omx/ducati/domx/system/omx_core/inc
 endif
 
 LOCAL_SHARED_LIBRARIES :=       \

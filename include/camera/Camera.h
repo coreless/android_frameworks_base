@@ -82,10 +82,12 @@ enum {
 #ifdef OMAP_ENHANCEMENT
 
     CAMERA_MSG_BURST_IMAGE      = 0x200,
+    CAMERA_MSG_CAF		= 0x400,
+    CAMERA_MSG_FACE_DETECTION	= 0x800,
 
 #endif
 
-    CAMERA_MSG_ALL_MSGS         = 0x1FF
+    CAMERA_MSG_ALL_MSGS         = 0xFFF
 };
 
 // cmdType in sendCommand functions
