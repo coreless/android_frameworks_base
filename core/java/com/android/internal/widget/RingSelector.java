@@ -288,6 +288,7 @@ public class RingSelector extends ViewGroup {
                 trans.setDuration(ANIM_DURATION);
                 trans.setFillAfter(true);
                 ring.startAnimation(trans);
+                ring.setVisibility(View.INVISIBLE);
                 target.setVisibility(View.INVISIBLE);
             }
         }
@@ -973,7 +974,9 @@ public class RingSelector extends ViewGroup {
         dispatchTriggerEvent(isLeft ?
                 OnRingTriggerListener.LEFT_RING : (isRight ? OnRingTriggerListener.RIGHT_RING :
                     OnRingTriggerListener.MIDDLE_RING), mSelectedRingId);
-        resetView();
+        if (isRight) {
+            resetView();
+        }
         mAnimating = false;
     }
 

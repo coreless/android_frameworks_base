@@ -72,6 +72,5 @@ LOCAL_CFLAGS := \
         -DOSCL_UNUSED_ARG=
 
 LOCAL_MODULE := libstagefright_amrnbenc
-LOCAL_MODULE_TAGS := optional
 
 include $(BUILD_STATIC_LIBRARY)
