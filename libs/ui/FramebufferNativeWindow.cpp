@@ -63,6 +63,7 @@ private:
     ~NativeBuffer() { }; // this class cannot be overloaded
 };
 
+
 /*
  * This implements the (main) framebuffer management. This class is used
  * mostly by SurfaceFlinger, but also by command line GL application.
@@ -70,13 +71,12 @@ private:
  * In fact this is an implementation of ANativeWindow on top of
  * the framebuffer.
  * 
- * This implementation is able to manage any number of buffers,
- * defined by NUM_FRAME_BUFFERS (currently set to 2: front
- * and back buffer)
- *
+ * Currently it is pretty simple, it manages only two buffers (the front and 
+ * back buffer).
+ * 
  */
 
-FramebufferNativeWindow::FramebufferNativeWindow()
+FramebufferNativeWindow::FramebufferNativeWindow() 
     : BASE(), fbDev(0), grDev(0), mUpdateOnDemand(false)
 {
     hw_module_t const* module;
