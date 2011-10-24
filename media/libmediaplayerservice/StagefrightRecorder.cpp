@@ -713,14 +713,6 @@ sp<MediaSource> StagefrightRecorder::createAudioSource() {
     mSampleRate = mEncoderProfiles->getAudioEncoderParamByName(
                    "enc.aud.hz.min", mAudioEncoder);
 
-    sp<AudioSource> audioSource =
-        new AudioSource(
-                mAudioSource,
-                mSampleRate,
-                mAudioChannels);
-
-    status_t err = audioSource->initCheck();
-
     if (err != OK) {
         LOGE("audio source is not initialized");
         return NULL;

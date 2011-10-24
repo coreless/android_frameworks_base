@@ -44,6 +44,7 @@ LOCAL_SRC_FILES += \
 endif
 
 LOCAL_C_INCLUDES := \
+        frameworks/base/include/media/stagefright/openmax \
         frameworks/base/media/libstagefright/include \
         $(LOCAL_PATH)/src \
         $(LOCAL_PATH)/include
