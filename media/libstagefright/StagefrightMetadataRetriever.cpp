@@ -31,7 +31,6 @@
 #if defined (TARGET_OMAP4) && defined (OMAP_ENHANCEMENT)
 #include <OMX_TI_IVCommon.h>
 #endif
-
 namespace android {
 
 #if defined(OMAP_ENHANCEMENT) && defined(TARGET_OMAP4)

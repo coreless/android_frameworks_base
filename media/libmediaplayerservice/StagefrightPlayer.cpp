@@ -155,7 +155,6 @@ status_t StagefrightPlayer::requestVideoCloneMode(bool enable) {
     return mPlayer->requestVideoCloneMode(enable);
 }
 #endif
-
 status_t StagefrightPlayer::invoke(const Parcel &request, Parcel *reply) {
     return INVALID_OPERATION;
 }

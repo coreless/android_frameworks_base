@@ -421,6 +421,7 @@ status_t WAVSource::read(
 #ifdef OMAP_ENHANCEMENT
     mCurrentPos += offsetPos;
 #endif
+
     buffer->meta_data()->setInt32(kKeyIsSyncFrame, 1);
 
     *out = buffer;

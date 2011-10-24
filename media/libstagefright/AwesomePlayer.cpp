@@ -64,6 +64,7 @@ namespace android {
 #if defined(OMAP_ENHANCEMENT) && defined(TARGET_OMAP4)
 extern void updateMetaData(sp<MetaData> meta_track);
 #endif
+
 static int64_t kLowWaterMarkUs = 2000000ll;  // 2secs
 #ifndef OMAP_ENHANCEMENT
 static int64_t kHighWaterMarkUs = 10000000ll;  // 10secs
@@ -959,6 +960,7 @@ status_t AwesomePlayer::play_l() {
                     mAudioPlayer = NULL;
 
                     mFlags &= ~(PLAYING | FIRST_FRAME);
+
 #ifdef OMAP_ENHANCEMENT
                     if (mFirstVideoBuffer) {
                         mFirstVideoBuffer->release();
@@ -1670,6 +1672,7 @@ void AwesomePlayer::onVideoEvent() {
             mLastVideoBuffer = NULL;
         }
 #endif
+
         if (mVideoBuffer) {
             mVideoBuffer->release();
             mVideoBuffer = NULL;
@@ -1695,6 +1698,7 @@ void AwesomePlayer::onVideoEvent() {
         MediaSource::ReadOptions options;
         if (mSeeking) {
             LOGV("seeking to %lld us (%.2f secs)", mSeekTimeUs, mSeekTimeUs / 1E6);
+
 #ifdef OMAP_ENHANCEMENT
             if (mIsFirstVideoBuffer) {
                 if (mFirstVideoBuffer != NULL) {
@@ -1755,8 +1759,8 @@ void AwesomePlayer::onVideoEvent() {
                             mVideoBuffer = NULL;
                         }
 #endif
-
                         err = initRenderer_l();
+
                         if (err == OK) {
 #ifdef OMAP_ENHANCEMENT
                         if (mVideoRenderer != NULL) {
@@ -1765,7 +1769,7 @@ void AwesomePlayer::onVideoEvent() {
                         }
                         postVideoEvent_l(0);
 #endif
-                            return;
+                            continue;
                         }
 
                         // fall through
@@ -1856,6 +1860,7 @@ void AwesomePlayer::onVideoEvent() {
 
         mVideoBuffer->release();
         mVideoBuffer = NULL;
+
 #if defined(OMAP_ENHANCEMENT) && defined(TARGET_OMAP4)
         postVideoEvent_l(0);
 #else
@@ -1863,6 +1868,7 @@ void AwesomePlayer::onVideoEvent() {
 #endif
         return;
     }
+
 #if defined(OMAP_ENHANCEMENT) && !defined(TARGET_OMAP4)
     if (latenessUs < -100000) {
         // We're more than 100ms early.
@@ -1938,6 +1944,7 @@ void AwesomePlayer::onVideoEvent() {
 #endif
 
     mVideoBuffer = NULL;
+
 #if defined(OMAP_ENHANCEMENT) && defined(TARGET_OMAP4)
     // No need to trigger the poll after 10 msec which is default value
     // This is causing a jerk in AV sync. We can trigger a 0 msec and accurate
@@ -1946,7 +1953,6 @@ void AwesomePlayer::onVideoEvent() {
 #else
     postVideoEvent_l();
 #endif
-
 }
 
 void AwesomePlayer::postVideoEvent_l(int64_t delayUs) {
@@ -2472,6 +2478,7 @@ status_t AwesomePlayer::suspend() {
     if (mLastVideoBuffer) {
         size_t size = mLastVideoBuffer->range_length();
 #endif
+
         if (size) {
             int32_t unreadable;
 #ifdef OMAP_ENHANCEMENT
@@ -2498,9 +2505,9 @@ status_t AwesomePlayer::suspend() {
                 state->mLastVideoFrame = malloc(size);
 
                 memcpy(state->mLastVideoFrame,
-                   (const uint8_t *)mLastVideoBuffer->data()
-                        + mLastVideoBuffer->range_offset(),
-                   size);
+                       (const uint8_t *)mLastVideoBuffer->data()
+                            + mLastVideoBuffer->range_offset(),
+                       size);
 #endif
 
                 state->mVideoWidth = mVideoWidth;

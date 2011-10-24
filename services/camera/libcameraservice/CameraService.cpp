@@ -224,6 +224,7 @@ sp<ICamera> CameraService::connect(
 #if defined(BOARD_USE_FROYO_LIBCAMERA) || defined(BOARD_HAVE_HTC_FFC)
     htcCameraSwitch(cameraId);
 #endif
+
     sp<CameraHardwareInterface> hardware = HAL_openCameraHardware(cameraId);
     if (hardware == NULL) {
         LOGE("Fail to open camera hardware (id=%d)", cameraId);
@@ -770,12 +771,13 @@ status_t CameraService::Client::setOverlay() {
         isS3d = strcmp(params.get("s3d-supported"), CameraParameters::TRUE) == 0;
 #endif
 
-    if (w != mOverlayW || h != mOverlayH || mOrientationChanged
 #ifdef OMAP_ENHANCEMENT
+    if (w != mOverlayW || h != mOverlayH || mOrientationChanged
         || ((mOverlayFormat!=NULL) && (strcmp(prevFormat, mOverlayFormat)!=0))
-        || (mS3DOverlay != isS3d)
+        || (mS3DOverlay != isS3d)) {
+#else
+    if (w != mOverlayW || h != mOverlayH || mOrientationChanged) {
 #endif
-    ) {
         // Force the destruction of any previous overlay
         sp<Overlay> dummy;
         mHardware->setOverlay(dummy);
@@ -1119,6 +1121,14 @@ status_t CameraService::Client::setParameters(const String8& params) {
 
     CameraParameters p(params);
 
+#ifdef BOARD_HAS_LGE_FFC
+    /* Do not set nvidia focus area to 0 */
+    if(p.get("nv-areas-to-focus")!= NULL &&
+       !strncmp(p.get("nv-areas-to-focus"),"0",1)) {
+        p.remove("nv-areas-to-focus");
+    }
+#endif
+
     return mHardware->setParameters(p);
 }
 
@@ -1328,28 +1338,24 @@ void CameraService::Client::dataCallback(int32_t msgType,
         case CAMERA_MSG_COMPRESSED_IMAGE:
             client->handleCompressedPicture(dataPtr);
             break;
-
 #ifdef OMAP_ENHANCEMENT
-
         case CAMERA_MSG_BURST_IMAGE:
             client->handleBurstPicture(dataPtr);
             break;
-
 #endif
-
         default:
             client->handleGenericData(msgType, dataPtr);
             break;
     }
 }
+
 #ifdef OMAP_ENHANCEMENT
 void CameraService::Client::dataCallbackTimestamp(nsecs_t timestamp, int32_t msgType,
-        const sp<IMemory>& dataPtr, void* user, uint32_t offset, uint32_t stride)
+        const sp<IMemory>& dataPtr, void* user, uint32_t offset, uint32_t stride) {
 #else
 void CameraService::Client::dataCallbackTimestamp(nsecs_t timestamp,
-        int32_t msgType, const sp<IMemory>& dataPtr, void* user)
+        int32_t msgType, const sp<IMemory>& dataPtr, void* user) {
 #endif
-{
     LOG2("dataCallbackTimestamp(%d)", msgType);
 
     sp<Client> client = getClientFromCookie(user);
@@ -1361,6 +1367,7 @@ void CameraService::Client::dataCallbackTimestamp(nsecs_t timestamp,
         client->handleGenericNotify(CAMERA_MSG_ERROR, UNKNOWN_ERROR, 0);
         return;
     }
+
 #ifdef OMAP_ENHANCEMENT
     client->handleGenericDataTimestamp(timestamp, msgType, dataPtr, offset, stride);
 #else
@@ -1525,7 +1532,6 @@ void CameraService::Client::handleCompressedPicture(const sp<IMemory>& mem) {
 }
 
 #ifdef OMAP_ENHANCEMENT
-
 // burst callback
 void CameraService::Client::handleBurstPicture(const sp<IMemory>& mem) {
     //Don't disable this message type yet. In this mode takePicture() will
@@ -1538,7 +1544,6 @@ void CameraService::Client::handleBurstPicture(const sp<IMemory>& mem) {
         c->dataCallback(CAMERA_MSG_COMPRESSED_IMAGE, mem);
     }
 }
-
 #endif
 
 void CameraService::Client::handleGenericNotify(int32_t msgType,
@@ -1558,14 +1563,14 @@ void CameraService::Client::handleGenericData(int32_t msgType,
         c->dataCallback(msgType, dataPtr);
     }
 }
+
 #ifdef OMAP_ENHANCEMENT
 void CameraService::Client::handleGenericDataTimestamp(nsecs_t timestamp,
-    int32_t msgType, const sp<IMemory>& dataPtr, uint32_t offset, uint32_t stride)
+    int32_t msgType, const sp<IMemory>& dataPtr, uint32_t offset, uint32_t stride) {
 #else
 void CameraService::Client::handleGenericDataTimestamp(nsecs_t timestamp,
-    int32_t msgType, const sp<IMemory>& dataPtr)
+    int32_t msgType, const sp<IMemory>& dataPtr) {
 #endif
-{
     sp<ICameraClient> c = mCameraClient;
     mLock.unlock();
     if (c != 0) {

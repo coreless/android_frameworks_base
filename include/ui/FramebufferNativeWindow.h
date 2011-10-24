@@ -58,8 +58,7 @@ public:
 #ifdef OMAP_ENHANCEMENT
     FramebufferNativeWindow(uint32_t idx);
 #endif
-    FramebufferNativeWindow();
-
+    FramebufferNativeWindow(); 
 
     framebuffer_device_t const * getDevice() const { return fbDev; } 
 
@@ -98,7 +97,7 @@ private:
     int32_t mCurrentBufferIndex;
     bool mUpdateOnDemand;
 };
-
+    
 // ---------------------------------------------------------------------------
 }; // namespace android
 // ---------------------------------------------------------------------------

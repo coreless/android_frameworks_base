@@ -197,6 +197,7 @@ public:
     virtual sp<IMemory>         decode(const char* url, uint32_t *pSampleRate, int* pNumChannels, int* pFormat);
     virtual sp<IMemory>         decode(int fd, int64_t offset, int64_t length, uint32_t *pSampleRate, int* pNumChannels, int* pFormat);
     virtual sp<IOMX>            getOMX();
+
 #ifdef OMAP_ENHANCEMENT
     virtual sp<IOverlayRenderer>  getOverlayRenderer();
 #endif

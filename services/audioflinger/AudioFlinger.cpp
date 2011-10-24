@@ -1095,15 +1095,14 @@ status_t AudioFlinger::ThreadBase::dumpBase(int fd, const Vector<String16>& args
 
 
 // ----------------------------------------------------------------------------
-#ifdef OMAP_ENHANCEMENT
+
 AudioFlinger::PlaybackThread::PlaybackThread(const sp<AudioFlinger>& audioFlinger, AudioStreamOut* output, int id, uint32_t device)
     :   ThreadBase(audioFlinger, id),
+#ifdef OMAP_ENHANCEMENT
         mMixBuffer(0), mSuspended(0), mBytesWritten(0), mFmInplay(false), mOutput(output),
         mLastWriteTime(0), mNumWrites(0), mNumDelayedWrites(0), mInWrite(false),
-	mDevice(device)
+	    mDevice(device)
 #else
-AudioFlinger::PlaybackThread::PlaybackThread(const sp<AudioFlinger>& audioFlinger, AudioStreamOut* output, int id, uint32_t device)
-    :   ThreadBase(audioFlinger, id),
         mMixBuffer(0), mSuspended(0), mBytesWritten(0), mOutput(output),
         mLastWriteTime(0), mNumWrites(0), mNumDelayedWrites(0), mInWrite(false),
         mDevice(device)
@@ -1526,7 +1525,6 @@ status_t AudioFlinger::PlaybackThread::setFMRxActive(bool state)
     return NO_ERROR;
 }
 #endif
-
 uint32_t AudioFlinger::PlaybackThread::hasAudioSession(int sessionId)
 {
     Mutex::Autolock _l(mLock);

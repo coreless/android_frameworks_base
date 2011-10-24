@@ -115,5 +115,4 @@ Vector< sp<IMemory> > SoftwareRenderer::getBuffers(){
     return mDummy;
 }
 #endif
-
 }  // namespace android

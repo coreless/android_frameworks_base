@@ -262,6 +262,7 @@ public class VideoView extends SurfaceView implements MediaPlayerControl {
              mContext.sendBroadcast(fm);
         }
         /* TI FM UI port -stop */
+
         // we shouldn't clear the target state, because somebody might have
         // called start() previously
         release(false);
@@ -344,6 +345,7 @@ public class VideoView extends SurfaceView implements MediaPlayerControl {
                 mHdmiIntent = new IntentFilter(ACTION_HDMI_PLUG);
                 mContext.registerReceiver(mReceiver, mHdmiIntent);
             }
+
             // Get the capabilities of the player for this stream
             Metadata data = mp.getMetadata(MediaPlayer.METADATA_ALL,
                                       MediaPlayer.BYPASS_METADATA_FILTER);

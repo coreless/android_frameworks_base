@@ -65,5 +65,4 @@ LOCAL_SRC_FILES += OverlayRenderer.cpp
 LOCAL_C_INCLUDES += $(TOP)/hardware/ti/omap4/omap3/liboverlay
 
 endif
-
 include $(BUILD_SHARED_LIBRARY)

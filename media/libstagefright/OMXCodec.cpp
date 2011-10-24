@@ -38,7 +38,6 @@
 #if defined(OMAP_ENHANCEMENT) && (TARGET_OMAP4)
 #define NPA_BUFFERS
 #endif
-
 #include <binder/IServiceManager.h>
 #include <binder/MemoryDealer.h>
 #include <binder/ProcessState.h>
@@ -677,17 +676,23 @@ uint32_t OMXCodec::getComponentQuirks(
 #else
         quirks |= kRequiresAllocateBufferOnInputPorts;
         quirks |= kRequiresAllocateBufferOnOutputPorts;
+#if defined(OMAP_ENHANCEMENT) && defined (TARGET_OMAP4)
         if (!strncmp(componentName, "OMX.TI.Video.encoder", 20) ||
             !strncmp(componentName, "OMX.TI.720P.Encoder", 19)) {
+#else
+        if (!strncmp(componentName, "OMX.TI.Video.encoder", 20)) {
+#endif
             quirks |= kAvoidMemcopyInputRecordingFrames;
         }
 #endif
     }
+
 #ifndef OMAP_ENHANCEMENT
     if (!strcmp(componentName, "OMX.TI.Video.Decoder")) {
         quirks |= kInputBufferSizesAreBogus;
     }
 #endif
+
     if (!strncmp(componentName, "OMX.SEC.", 8) && !isEncoder) {
         // These output buffers contain no video data, just some
         // opaque information that allows the overlay to display their
@@ -791,11 +796,13 @@ sp<MediaSource> OMXCodec::Create(
         }
 
         LOGV("Attempting to allocate OMX node '%s'", componentName);
+
 #ifdef OMAP_ENHANCEMENT
 uint32_t quirks = getComponentQuirks(componentName, createEncoder, flags);
 #else
         uint32_t quirks = getComponentQuirks(componentName, createEncoder);
 #endif
+
         if (!createEncoder
                 && (quirks & kOutputBuffersAreUnreadable)
                 && (flags & kClientNeedsFramebuffer)) {
@@ -962,7 +969,7 @@ status_t OMXCodec::configureCodec(const sp<MetaData> &meta, uint32_t flags) {
     }
     else if (meta->findData(kKeyESDS, &type, &data, &size)) {
 #else
-    if (meta->findData(kKeyESDS, &type, &data, &size)) {
+        if (meta->findData(kKeyESDS, &type, &data, &size)) {
 #endif
             ESDS esds((const char *)data, size);
             CHECK_EQ(esds.InitCheck(), OK);
@@ -1412,7 +1419,6 @@ status_t OMXCodec::configureCodec(const sp<MetaData> &meta, uint32_t flags) {
         mNSecsToWait = 0;
     }
 #endif
-
     return OK;
 }
 
@@ -1440,7 +1446,6 @@ void OMXCodec::setMinBufferSize(OMX_U32 portIndex, OMX_U32 size) {
     def.nBufferSize = ((def.nBufferSize + CACHELINE_BOUNDARY_MEMALIGNMENT - 1) &
                         ~(CACHELINE_BOUNDARY_MEMALIGNMENT - 1));
 #endif
-
     err = mOMX->setParameter(
             mNode, OMX_IndexParamPortDefinition, &def, sizeof(def));
     CHECK_EQ(err, OK);
@@ -1488,8 +1493,12 @@ status_t OMXCodec::setVideoPortFormatType(
              index, format.eCompressionFormat, format.eColorFormat);
 #endif
 
+#if defined(OMAP_ENHANCEMENT) && defined(TARGET_OMAP4)
         if (!strcmp("OMX.TI.Video.encoder", mComponentName) ||
             !strcmp("OMX.TI.720P.Encoder", mComponentName)) {
+#else
+        if (!strcmp("OMX.TI.Video.encoder", mComponentName)) {
+#endif
             if (portIndex == kPortIndexInput
                     && colorFormat == format.eColorFormat) {
                 // eCompressionFormat does not seem right.
@@ -1517,7 +1526,6 @@ status_t OMXCodec::setVideoPortFormatType(
         format.eColorFormat = colorFormat; //HACK. Should be removed in 1.20 ducati release
         }
 #endif
-
         if (format.eCompressionFormat == compressionFormat
             && format.eColorFormat == colorFormat) {
             found = true;
@@ -1549,7 +1557,6 @@ static size_t getFrameSize(
         case OMX_COLOR_FormatYUV420Planar:
         case OMX_COLOR_FormatYUV420SemiPlanar:
             return (width * height * 3) / 2;
-
 #if defined (OMAP_ENHANCEMENT) && defined (TARGET_OMAP4)
         case OMX_COLOR_FormatYUV420PackedSemiPlanar:
             return (4096 * height *3)/2;
@@ -1571,8 +1578,12 @@ status_t OMXCodec::findTargetColorFormat(
     if (meta->findInt32(kKeyColorFormat, &targetColorFormat)) {
         *colorFormat = (OMX_COLOR_FORMATTYPE) targetColorFormat;
     } else {
+#if defined(OMAP_ENHANCEMENT) && defined(TARGET_OMAP4)
         if (!strcasecmp("OMX.TI.Video.encoder", mComponentName) ||
             !strcasecmp("OMX.TI.720P.Encoder", mComponentName)) {
+#else
+        if (!strcasecmp("OMX.TI.Video.encoder", mComponentName)) {
+#endif
             *colorFormat = OMX_COLOR_FormatYCbYCr;
         }
     }
@@ -1639,7 +1650,6 @@ void OMXCodec::setVideoInputFormat(
     success = success && meta->findInt32(kKeyPaddedWidth, &paddedWidth);
     success = success && meta->findInt32(kKeyPaddedHeight, &paddedHeight);
 #endif
-
     CHECK(success);
     CHECK(stride != 0);
 
@@ -2316,12 +2326,13 @@ status_t OMXCodec::setupAVCEncoderParameters(const sp<MetaData>& meta) {
     h264type.eLevel = static_cast<OMX_VIDEO_AVCLEVELTYPE>(profileLevel.mLevel);
 #endif
 
-    if (h264type.eProfile == OMX_VIDEO_AVCProfileBaseline
 #if defined(OMAP_ENHANCEMENT) && defined(TARGET_OMAP4)
+    if (h264type.eProfile == OMX_VIDEO_AVCProfileBaseline
        || h264type.eProfile == OMX_VIDEO_AVCProfileMain
-       || h264type.eProfile == OMX_VIDEO_AVCProfileHigh
+       || h264type.eProfile == OMX_VIDEO_AVCProfileHigh) {
+#else
+    if (h264type.eProfile == OMX_VIDEO_AVCProfileBaseline) {
 #endif
-       ) {
         h264type.bUseHadamard = OMX_TRUE;
         h264type.nRefFrames = 1;
         h264type.nRefIdx10ActiveMinus1 = 0;
@@ -3755,7 +3766,7 @@ status_t OMXCodec::freeBuffersOnPort(
 #ifdef OMAP_ENHANCEMENT
         if (onlyThoseWeOwn && (info->mOwnedByComponent || info->mOwnedByPlayer) ) {
 #else
-        if (onlyThoseWeOwn && info->mOwnedByComponent ) {
+        if (onlyThoseWeOwn && info->mOwnedByComponent) {
 #endif
             continue;
         }
@@ -3862,6 +3873,7 @@ bool OMXCodec::flushPortAsync(OMX_U32 portIndex) {
 
 void OMXCodec::disablePortAsync(OMX_U32 portIndex) {
     CHECK(mState == EXECUTING || mState == RECONFIGURING);
+
     CHECK_EQ(mPortStatus[portIndex], ENABLED);
     mPortStatus[portIndex] = DISABLING;
 
@@ -3981,12 +3993,13 @@ void OMXCodec::drainInputBuffer(BufferInfo *info) {
 
         CODEC_LOGV("calling emptyBuffer with codec specific data");
 
-        info->mOwnedByComponent = true;
         status_t err = mOMX->emptyBuffer(
                 mNode, info->mBuffer, 0, size,
                 OMX_BUFFERFLAG_ENDOFFRAME | OMX_BUFFERFLAG_CODECCONFIG,
                 0);
         CHECK_EQ(err, OK);
+
+        info->mOwnedByComponent = true;
 
         ++mCodecSpecificDataIndex;
         return;
@@ -4006,7 +4019,6 @@ void OMXCodec::drainInputBuffer(BufferInfo *info) {
 #if defined (OMAP_ENHANCEMENT) && defined (TARGET_OMAP4)
     uint32_t omx_offset = 0;
 #endif
-
     for (;;) {
         MediaBuffer *srcBuffer;
         MediaSource::ReadOptions options;
@@ -4225,11 +4237,17 @@ void OMXCodec::drainInputBuffer(BufferInfo *info) {
         return;
     }
 
+    info->mOwnedByComponent = true;
+
     // This component does not ever signal the EOS flag on output buffers,
     // Thanks for nothing.
+#if defined(OMAP_ENHANCEMENT) && defined(TARGET_OMAP4)
     if (mSignalledEOS &&
             (!strcmp(mComponentName, "OMX.TI.Video.encoder") ||
              !strcmp(mComponentName, "OMX.TI.720P.Encoder"))) {
+#else
+    if (mSignalledEOS && !strcmp(mComponentName, "OMX.TI.Video.encoder")) {
+#endif
         mNoMoreOutputData = true;
         mBufferFilled.signal();
     }
@@ -4245,7 +4263,6 @@ void OMXCodec::fillOutputBuffer(BufferInfo *info) {
     }
 
     CODEC_LOGV("Calling fill_buffer on buffer %p", info->mBuffer);
-    info->mOwnedByComponent = true;
     status_t err = mOMX->fillBuffer(mNode, info->mBuffer);
 
     if (err != OK) {
@@ -4254,6 +4271,8 @@ void OMXCodec::fillOutputBuffer(BufferInfo *info) {
         setState(ERROR);
         return;
     }
+
+    info->mOwnedByComponent = true;
 }
 
 void OMXCodec::drainInputBuffer(IOMX::buffer_id buffer) {
@@ -4282,8 +4301,8 @@ void OMXCodec::fillOutputBuffer(IOMX::buffer_id buffer) {
                 return;
             }
 #else
-        fillOutputBuffer(&buffers->editItemAt(i));
-        return;
+            fillOutputBuffer(&buffers->editItemAt(i));
+            return;
 #endif
         }
     }
@@ -4824,7 +4843,6 @@ status_t OMXCodec::read(
 #if defined(TARGET_OMAP4) && defined(OMAP_ENHANCEMENT)
     status_t wait_status = 0;
 #endif
-
     *buffer = NULL;
 
     Mutex::Autolock autoLock(mLock);
@@ -4832,7 +4850,6 @@ status_t OMXCodec::read(
     if (mState != EXECUTING && mState != RECONFIGURING) {
         return UNKNOWN_ERROR;
     }
-
 #if defined(OMAP_ENHANCEMENT) && defined (TARGET_OMAP4)
     /*Stagefright port-reconfiguration logic is based on mOutputPortSettingsHaveChanged, which will be updated very late when port is reenabled */
     /*Detect port-config event quickly so overlay buffers will be available upfront*/
@@ -4913,7 +4930,11 @@ status_t OMXCodec::read(
                 return UNKNOWN_ERROR;
             }
 #else
-            mBufferFilled.wait(mLock);
+            wait_status = mBufferFilled.waitRelative(mLock, 3000000000);
+            if (wait_status) {
+                LOGE("Timed out waiting for the buffer! Line %d", __LINE__);
+                return UNKNOWN_ERROR;
+            }
 #endif
         }
     }
@@ -4991,7 +5012,11 @@ status_t OMXCodec::read(
 
 #else
     while (mState != ERROR && !mNoMoreOutputData && mFilledBuffers.empty()) {
-        mBufferFilled.wait(mLock);
+        wait_status = mBufferFilled.waitRelative(mLock, 3000000000);
+        if (wait_status) {
+            LOGE("Timed out waiting for the buffer! Line %d", __LINE__);
+            return UNKNOWN_ERROR;
+        }
     }
 #endif
 
@@ -5005,6 +5030,7 @@ status_t OMXCodec::read(
 
     if (mOutputPortSettingsHaveChanged) {
         mOutputPortSettingsHaveChanged = false;
+
 #if defined(TARGET_OMAP4) && defined(OMAP_ENHANCEMENT)
         //for ducati codecs, to assert port reconfiguration immediately (so as to allocate overlay buffers upfront), we use mState as above.
         //so, mOutputPortSettingsHaveChanged conditon check will result in redundant INFO_FORMAT_CHANGED event. Just proceed now.
@@ -5056,8 +5082,8 @@ void OMXCodec::signalBufferReturned(MediaBuffer *buffer) {
                 return;
             }
 #else
-        fillOutputBuffer(info);
-        return;
+            fillOutputBuffer(info);
+            return;
 #endif
         }
     }

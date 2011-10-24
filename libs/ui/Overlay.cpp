@@ -85,7 +85,6 @@ status_t Overlay::set_s3d_params(int32_t s3d_mode, uint32_t s3d_fmt, uint32_t s3
     return mOverlayData->set_s3d_params(mOverlayData, s3d_mode, s3d_fmt, s3d_order, s3d_subsampling);
 }
 #endif
-
 status_t Overlay::getCrop(uint32_t* x, uint32_t* y, uint32_t* w, uint32_t* h)
 {
     if (mStatus != NO_ERROR) return mStatus;

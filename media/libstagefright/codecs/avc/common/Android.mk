@@ -9,7 +9,6 @@ LOCAL_SRC_FILES := \
  	src/reflist.cpp
 
 LOCAL_MODULE := libstagefright_avc_common
-LOCAL_MODULE_TAGS := optional
 
 LOCAL_CFLAGS := -DOSCL_EXPORT_REF= -DOSCL_IMPORT_REF=
 

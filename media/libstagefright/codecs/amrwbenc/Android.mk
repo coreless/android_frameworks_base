@@ -88,7 +88,6 @@ LOCAL_SRC_FILES += \
 endif
 
 LOCAL_MODULE := libstagefright_amrwbenc
-LOCAL_MODULE_TAGS := optional
 
 LOCAL_ARM_MODE := arm
 

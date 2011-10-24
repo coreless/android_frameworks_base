@@ -36,14 +36,12 @@ typedef struct {
     uint32_t display_height;
     }render_resize_params;
 #endif
-
 class VideoRenderer {
 public:
     virtual ~VideoRenderer() {}
 
     virtual void render(
             const void *data, size_t size, void *platformPrivate) = 0;
-
 #ifdef OMAP_ENHANCEMENT
     virtual Vector< sp<IMemory> > getBuffers() = 0;
     virtual bool setCallback(release_rendered_buffer_callback cb, void *cookie) {return false;}

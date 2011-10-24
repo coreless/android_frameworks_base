@@ -111,7 +111,6 @@ enum {
     kKeyValidSamples      = 'valD',  // int32_t
 
     kKeyIsUnreadable      = 'unre',  // bool (int32_t)
-
 #if defined (OMAP_ENHANCEMENT) && defined (TARGET_OMAP4)
     kKeyPaddedWidth       = 'pwid',   // int32_t
     kKeyPaddedHeight      = 'phei',   // int32_t

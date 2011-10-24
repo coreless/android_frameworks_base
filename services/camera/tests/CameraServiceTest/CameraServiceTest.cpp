@@ -303,7 +303,6 @@ public:
     virtual void setDisplayId(int dpy);
     virtual int requestOverlayClone(bool enable);
 #endif
-
     virtual sp<GraphicBuffer> requestBuffer(int bufferIdx, int usage);
     virtual status_t setBufferCount(int bufferCount);
 
@@ -378,7 +377,6 @@ sp<OverlayRef> MSurface::createOverlay(uint32_t w, uint32_t h, int32_t format,
     ASSERT(0);
     return NULL;
 }
-
 #ifdef OMAP_ENHANCEMENT
 sp<OverlayRef> MSurface::createOverlay(uint32_t w, uint32_t h, int32_t format,
         int32_t orientation, int isS3D) {

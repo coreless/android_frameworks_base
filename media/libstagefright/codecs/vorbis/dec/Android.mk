@@ -9,6 +9,5 @@ LOCAL_C_INCLUDES := \
         external/tremolo
 
 LOCAL_MODULE := libstagefright_vorbisdec
-LOCAL_MODULE_TAGS := optional
 
 include $(BUILD_STATIC_LIBRARY)

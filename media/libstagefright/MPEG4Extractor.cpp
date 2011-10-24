@@ -41,7 +41,6 @@
 #if defined(OMAP_ENHANCEMENT) && defined(TARGET_OMAP4)
 #include "include/TISEIMessagesParser.h"
 #endif
-
 namespace android {
 
 #ifdef OMAP_ENHANCEMENT
@@ -112,6 +111,7 @@ private:
 #if defined(OMAP_ENHANCEMENT) && defined(TARGET_OMAP4)
     size_t SEINALLength;
 #endif
+
     bool mStarted;
 
     MediaBufferGroup *mGroup;
@@ -393,6 +393,7 @@ sp<MetaData> MPEG4Extractor::getTrackMetaData(
         }
     }
 #else
+
     if ((flags & kIncludeExtensiveMetaData)
             && !track->includes_expensive_metadata) {
         track->includes_expensive_metadata = true;
@@ -413,6 +414,7 @@ sp<MetaData> MPEG4Extractor::getTrackMetaData(
         }
     }
 #endif
+
     return track->meta;
 }
 
@@ -458,7 +460,6 @@ status_t MPEG4Extractor::readMetaData() {
 				tempTrack= tempTrack->next;
             }
 #endif
-
         } else {
             mFileMetaData->setCString(kKeyMIMEType, "audio/mp4");
         }
@@ -544,11 +545,12 @@ status_t MPEG4Extractor::parseChunk(off_t *offset, int depth) {
         return ERROR_MALFORMED;
     }
 #else
-    } else if (chunk_size < 8){
+    } else if (chunk_size < 8) {
         // The smallest valid chunk is 8 bytes long.
         return ERROR_MALFORMED;
     }
 #endif
+
     char chunk[5];
     MakeFourCCString(chunk_type, chunk);
 
@@ -1026,6 +1028,7 @@ status_t MPEG4Extractor::parseChunk(off_t *offset, int depth) {
             break;
         }
 #endif
+
         case FOURCC('m', 'p', '4', 'v'):
         case FOURCC('s', '2', '6', '3'):
 #ifdef OMAP_ENHANCEMENT
@@ -2571,5 +2574,6 @@ bool SniffMPEG4(
     return false;
 }
 #endif
+
 }  // namespace android
 

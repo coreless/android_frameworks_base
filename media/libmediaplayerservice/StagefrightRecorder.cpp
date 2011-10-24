@@ -678,6 +678,19 @@ status_t StagefrightRecorder::start() {
 }
 
 sp<MediaSource> StagefrightRecorder::createAudioSource() {
+    sp<AudioSource> audioSource =
+        new AudioSource(
+                mAudioSource,
+                mSampleRate,
+                mAudioChannels);
+
+    status_t err = audioSource->initCheck();
+
+    if (err != OK) {
+        LOGE("audio source is not initialized");
+        return NULL;
+    }
+
     sp<MetaData> encMeta = new MetaData;
     const char *mime;
     switch (mAudioEncoder) {
@@ -712,7 +725,6 @@ sp<MediaSource> StagefrightRecorder::createAudioSource() {
         LOGE("audio source is not initialized");
         return NULL;
     }
-
     int32_t maxInputSize;
     CHECK(audioSource->getFormat()->findInt32(
                 kKeyMaxInputSize, &maxInputSize));

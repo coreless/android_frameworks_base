@@ -230,7 +230,6 @@ int LayerBuffer::requestOverlayClone(bool enable) {
     return (-1);
 }
 #endif
-
 sp<LayerBuffer::Source> LayerBuffer::getSource() const {
     Mutex::Autolock _l(mLock);
     return mSource;
@@ -318,7 +317,6 @@ int LayerBuffer::SurfaceLayerBuffer::requestOverlayClone(bool enable) {
 }
 
 #endif
-
 // ============================================================================
 // LayerBuffer::Buffer
 // ============================================================================
@@ -386,11 +384,11 @@ void LayerBuffer::Source::unregisterBuffers() {
 #ifdef OMAP_ENHANCEMENT
 void LayerBuffer::Source::setDisplayId(int dpy) {
 }
-
 int LayerBuffer::Source::requestOverlayClone(bool enable) {
     return -1;
 }
 #endif
+
 // ---------------------------------------------------------------------------
 
 LayerBuffer::BufferSource::BufferSource(LayerBuffer& layer,
@@ -671,7 +669,6 @@ LayerBuffer::OverlaySource::OverlaySource(LayerBuffer& layer,
     // enable dithering...
     overlay_dev->setParameter(overlay_dev, overlay, 
             OVERLAY_DITHER, OVERLAY_ENABLE);
-
 #ifdef OMAP_ENHANCEMENT
     //get the graphic plane pixel format and decide whether to use color key
     //or per-pixel alpha blend
@@ -698,7 +695,6 @@ LayerBuffer::OverlaySource::OverlaySource(LayerBuffer& layer,
     mInitialized = false;
 
     mOverlayHandle = overlay->getHandleRef(overlay);
-
 #ifdef OMAP_ENHANCEMENT
     layer.dpy = 0; //initialize the Layer display ID to 0
 #endif
@@ -767,7 +763,6 @@ LayerBuffer::OverlaySource::OverlaySource(LayerBuffer& layer,
     mLayer.mFlinger->signalEvent();
 }
 #endif
-
 LayerBuffer::OverlaySource::~OverlaySource()
 {
     if (mOverlay && mOverlayDevice) {
@@ -831,7 +826,6 @@ int LayerBuffer::OverlaySource::requestOverlayClone(bool enable) {
 }
 
 #endif
-
 void LayerBuffer::OverlaySource::onVisibilityResolved(
         const Transform& planeTransform)
 {

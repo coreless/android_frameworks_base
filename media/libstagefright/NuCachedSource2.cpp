@@ -445,6 +445,7 @@ ssize_t NuCachedSource2::readInternal(off_t offset, void *data, size_t size) {
         // make this value larger for high profile playback
         static const off_t kPadding = 768 * 1024;
 #endif
+
         // In the presence of multiple decoded streams, once of them will
         // trigger this seek request, the other one will request data "nearby"
         // soon, adjust the seek position so that that subsequent request

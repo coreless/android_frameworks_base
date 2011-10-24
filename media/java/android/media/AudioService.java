@@ -321,7 +321,6 @@ public class AudioService extends IAudioService.Stub {
             intentFilter.addAction(MAIN_MIC_CHOICE);
             intentFilter.addAction(SUB_MIC_CHOICE);
         }
-
         intentFilter.addAction(BluetoothA2dp.ACTION_SINK_STATE_CHANGED);
         intentFilter.addAction(BluetoothHeadset.ACTION_STATE_CHANGED);
         intentFilter.addAction(Intent.ACTION_DOCK_EVENT);

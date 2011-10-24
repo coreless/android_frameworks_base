@@ -104,6 +104,8 @@ private:
     // for testing
     friend class Test;
     const sp<ISurface>& getISurface() const { return mSurface; }
+    
+
 #ifdef OMAP_ENHANCEMENT
     friend class OmapMMLibrary;
 #endif
@@ -184,6 +186,7 @@ private:
     friend class IOMX;
     // this is just to be able to write some unit tests
     friend class Test;
+
 #ifdef OMAP_ENHANCEMENT
     friend class OmapMMLibrary;
 #endif

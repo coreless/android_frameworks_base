@@ -303,7 +303,6 @@ public class MediaRecorder
         setVideoFrameRate(profile.videoFrameRate);
         setVideoSize(profile.videoFrameWidth, profile.videoFrameHeight);
         setVideoEncodingBitRate(profile.videoBitRate);
-
         if(SystemProperties.OMAP_ENHANCEMENT) {
             setVideoEncoder(profile.videoCodec);
 
@@ -315,11 +314,11 @@ public class MediaRecorder
                 setAudioEncoder(profile.audioCodec);
             }
         } else {
-            setAudioEncodingBitRate(profile.audioBitRate);
-            setAudioChannels(profile.audioChannels);
-            setAudioSamplingRate(profile.audioSampleRate);
-            setVideoEncoder(profile.videoCodec);
-            setAudioEncoder(profile.audioCodec);
+        setAudioEncodingBitRate(profile.audioBitRate);
+        setAudioChannels(profile.audioChannels);
+        setAudioSamplingRate(profile.audioSampleRate);
+        setVideoEncoder(profile.videoCodec);
+        setAudioEncoder(profile.audioCodec);
         }
     }
 

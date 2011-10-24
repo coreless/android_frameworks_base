@@ -147,6 +147,7 @@ FramebufferNativeWindow::FramebufferNativeWindow()
 
         LOGE_IF(err, "fb buffer 1 allocation failed w=%d, h=%d, err=%s",
                 fbDev->width, fbDev->height, strerror(-err));
+
 #endif
         const_cast<uint32_t&>(ANativeWindow::flags) = fbDev->flags; 
         const_cast<float&>(ANativeWindow::xdpi) = fbDev->xdpi;
@@ -265,6 +266,7 @@ FramebufferNativeWindow::~FramebufferNativeWindow()
             grDev->free(grDev, buffers[1]->handle);
         gralloc_close(grDev);
     }
+
 #endif
     if (fbDev) {
         framebuffer_close(fbDev);
@@ -412,7 +414,6 @@ int FramebufferNativeWindow::perform(ANativeWindow* window,
 // ----------------------------------------------------------------------------
 
 using namespace android;
-
 #ifdef OMAP_ENHANCEMENT
 EGLNativeWindowType android_createDisplaySurfaceOnFB(uint32_t fb_idx)
 {

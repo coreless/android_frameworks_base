@@ -62,7 +62,6 @@ struct OMXCodec : public MediaSource,
             const char *matchComponentName = NULL,
             uint32_t flags = 0);
 #endif
-
     static void setComponentRole(
             const sp<IOMX> &omx, IOMX::node_id node, bool isEncoder,
             const char *mime);
@@ -71,6 +70,7 @@ struct OMXCodec : public MediaSource,
     virtual status_t stop();
 
     virtual sp<MetaData> getFormat();
+
 #ifdef OMAP_ENHANCEMENT
     virtual void setBuffers(Vector< sp<IMemory> > mBufferAddresses, bool portReconfig = false);
     virtual int getNumofOutputBuffers();
@@ -140,12 +140,14 @@ private:
         kOutputBuffersAreUnreadable           = 8192,
         kStoreMetaDataInInputVideoBuffers     = 16384,
         kCanNotSetVideoParameters             = 32768,
-        kDoesNotRequireMemcpyOnOutputPort     = 65536,
 #ifdef OMAP_ENHANCEMENT
+        kDoesNotRequireMemcpyOnOutputPort     = 65536,
         kDecoderNeedsPortReconfiguration      = 131072,
         kDecoderCantRenderSmallClips          = 262144,
         kInterlacedOutputContent              = 524288,
         kThumbnailMode                        = 1048576,
+#else
+        kDoesNotRequireMemcpyOnOutputPort     = 65536
 #endif
     };
 
@@ -233,7 +235,6 @@ private:
     status_t setupEncoderPresetParams(int32_t isS3DEnabled);
     status_t setupEncoderFrameDataContentParams(const sp<MetaData>& meta);
 #endif
-
     status_t setupBitRate(int32_t bitRate);
     status_t setupErrorCorrectionParameters();
     status_t setupH263EncoderParameters(const sp<MetaData>& meta);
@@ -320,6 +321,7 @@ protected:
     static uint32_t getComponentQuirks(
             const char *componentName, bool isEncoder);
 #endif
+
     static void findMatchingCodecs(
             const char *mime,
             bool createEncoder, const char *matchComponentName,
@@ -328,13 +330,11 @@ protected:
 
     OMXCodec(const OMXCodec &);
     OMXCodec &operator=(const OMXCodec &);
-
 #if defined(OMAP_ENHANCEMENT) && defined(TARGET_OMAP4) && defined (NPA_BUFFERS)
     uint32_t mNumberOfNPABuffersSent;
 	uint32_t mThumbnailEOSSent;
 #endif
 };
-
 #if defined(OMAP_ENHANCEMENT)
 struct OMXCodecObserver : public BnOMXObserver {
     OMXCodecObserver() {

@@ -26,6 +26,7 @@
 #include <media/stagefright/MediaErrors.h>
 #include <media/stagefright/MediaSource.h>
 #include <media/stagefright/MetaData.h>
+
 #ifdef OMAP_ENHANCEMENT
 #include <media/stagefright/MediaErrors.h>
 #endif
@@ -73,8 +74,6 @@ status_t AudioPlayer::start(bool sourceAlreadyStarted) {
 #if defined(OMAP_ENHANCEMENT) && defined(TARGET_OMAP4)
     mRealTimeInterpolation = GetSystemTimeuSec();
 #endif
-
-
     status_t err;
     if (!sourceAlreadyStarted) {
         err = mSource->start();

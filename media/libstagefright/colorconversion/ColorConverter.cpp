@@ -104,6 +104,7 @@ void ColorConverter::convert(
             convertNV12Tile(
                     width, height, srcBits, srcSkip, dstBits, dstSkip);
             break;
+
 #if defined(OMAP_ENHANCEMENT) && defined(TARGET_OMAP4)
         case OMX_COLOR_FormatYUV420PackedSemiPlanar:
         case OMX_TI_COLOR_FormatYUV420PackedSemiPlanar_Sequential_TopBottom:
@@ -380,8 +381,6 @@ void ColorConverter::convertYUV420SemiPlanar(
         dst_ptr += dstSkip / 4;
     }
 }
-
-
 #if defined(OMAP_ENHANCEMENT) && defined(TARGET_OMAP4)
 void ColorConverter::convertYUV420PackedSemiPlanar(
         size_t width, size_t height,

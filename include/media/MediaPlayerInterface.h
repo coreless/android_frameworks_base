@@ -122,6 +122,7 @@ public:
     virtual player_type playerType() = 0;
     virtual status_t    suspend() { return INVALID_OPERATION; }
     virtual status_t    resume() { return INVALID_OPERATION; }
+
 #ifdef OMAP_ENHANCEMENT
     virtual status_t    requestVideoCloneMode(bool enable) { return INVALID_OPERATION; }
 #endif

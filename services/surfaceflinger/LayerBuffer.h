@@ -79,6 +79,7 @@ public:
     void unregisterBuffers();
     sp<OverlayRef> createOverlay(uint32_t w, uint32_t h, int32_t format,
             int32_t orientation);
+    
 #ifdef OMAP_ENHANCEMENT
     sp<OverlayRef> createOverlay(uint32_t w, uint32_t h, int32_t format,
             int32_t orientation, int isS3D);
@@ -161,7 +162,6 @@ private:
         OverlaySource(LayerBuffer& layer,
                 sp<OverlayRef>* overlayRef, 
                 uint32_t w, uint32_t h, int32_t format, int32_t orientation);
-
 #ifdef OMAP_ENHANCEMENT
         OverlaySource(LayerBuffer& layer,
                 sp<OverlayRef>* overlayRef,
@@ -221,7 +221,6 @@ private:
         
         virtual sp<OverlayRef> createOverlay(
                 uint32_t w, uint32_t h, int32_t format, int32_t orientation);
-
 #ifdef OMAP_ENHANCEMENT
         virtual sp<OverlayRef> createOverlay(
                 uint32_t w, uint32_t h, int32_t format, int32_t orientation, int isS3D);

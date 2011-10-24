@@ -267,8 +267,8 @@ status_t OMXNodeInstance::useBuffer(
                 OMX::buffer_id *buffer, size_t size) {
 #else
 status_t OMXNodeInstance::useBuffer(
-                OMX_U32 portIndex, const sp<IMemory> &params,
-                OMX::buffer_id *buffer) {
+        OMX_U32 portIndex, const sp<IMemory> &params,
+        OMX::buffer_id *buffer) {
 #endif
     Mutex::Autolock autoLock(mLock);
 

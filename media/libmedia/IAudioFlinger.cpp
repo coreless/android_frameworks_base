@@ -275,6 +275,7 @@ public:
         remote()->transact(SET_STREAM_MUTE, data, &reply);
         return reply.readInt32();
     }
+
 #ifdef OMAP_ENHANCEMENT
     virtual status_t setFMRxActive( bool state)
     {

@@ -34,7 +34,6 @@
 #if defined(OMAP_ENHANCEMENT)
 #include "include/ASFExtractor.h"
 #endif
-
 namespace android {
 
 bool DataSource::getUInt16(off_t offset, uint16_t *x) {

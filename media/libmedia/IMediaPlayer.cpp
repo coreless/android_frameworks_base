@@ -244,7 +244,6 @@ public:
         remote()->transact(ATTACH_AUX_EFFECT, data, &reply);
         return reply.readInt32();
     }
-
 #ifdef OMAP_ENHANCEMENT
     status_t requestVideoCloneMode(bool enable) {
         Parcel data, reply;
@@ -253,7 +252,6 @@ public:
         remote()->transact(REQUEST_CLONE_MODE, data, &reply);
         return reply.readInt32();
     }
-
 #endif
 };
 

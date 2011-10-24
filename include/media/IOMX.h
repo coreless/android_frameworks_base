@@ -137,7 +137,6 @@ public:
             size_t encodedWidth, size_t encodedHeight,
             size_t displayWidth, size_t displayHeight,
             int32_t rotationDegrees);
-
 #if defined(OMAP_ENHANCEMENT) && defined(TARGET_OMAP4)
     virtual status_t useBuffer(
             node_id node, OMX_U32 port_index, const sp<IMemory> &params,
@@ -216,7 +215,6 @@ public:
 #ifdef OMAP_ENHANCEMENT
 typedef void (*release_rendered_buffer_callback)(const sp<IMemory>& mem, void* cookie);
 #endif
-
 class IOMXRenderer : public IInterface {
 public:
     DECLARE_META_INTERFACE(OMXRenderer);

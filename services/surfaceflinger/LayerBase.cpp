@@ -727,7 +727,6 @@ int LayerBaseClient::Surface::requestOverlayClone(bool enable)
 }
 
 #endif
-
 // ---------------------------------------------------------------------------
 
 }; // namespace android

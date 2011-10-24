@@ -23,7 +23,6 @@ LOCAL_SRC_FILES := \
 
 
 LOCAL_MODULE := libstagefright_m4vh263enc
-LOCAL_MODULE_TAGS := optional
 
 LOCAL_CFLAGS := \
     -DBX_RC \

@@ -21,7 +21,6 @@ LOCAL_SRC_FILES := \
 
 
 LOCAL_MODULE := libstagefright_avcenc
-LOCAL_MODULE_TAGS := optional
 
 LOCAL_C_INCLUDES := \
     $(LOCAL_PATH)/src \

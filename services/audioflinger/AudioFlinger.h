@@ -108,6 +108,7 @@ public:
     virtual     bool        getMicMute() const;
 
     virtual     bool        isStreamActive(int stream) const;
+
 #ifdef OMAP_ENHANCEMENT
    virtual     status_t	setFMRxActive(bool state);
 #endif

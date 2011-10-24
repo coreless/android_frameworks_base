@@ -6,7 +6,6 @@ LOCAL_PRELINK_MODULE := false
 LOCAL_SRC_FILES := cmnMemory.c
 
 LOCAL_MODULE := libstagefright_enc_common
-LOCAL_MODULE_TAGS := optional
 
 LOCAL_ARM_MODE := arm
 

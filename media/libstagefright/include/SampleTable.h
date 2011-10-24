@@ -80,6 +80,7 @@ public:
             uint32_t flags);
 
     status_t findThumbnailSample(uint32_t *sample_index);
+
 #ifdef OMAP_ENHANCEMENT
 	int32_t *mTimeToSampleCtts;
 #endif
@@ -130,12 +131,10 @@ private:
 
     SampleTable(const SampleTable &);
     SampleTable &operator=(const SampleTable &);
-
 #ifdef OMAP_ENHANCEMENT
     uint32_t mTimeToSampleCountCtts;
     int32_t *mCttsSampleBuffer;
 #endif
-
 };
 
 }  // namespace android

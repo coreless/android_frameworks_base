@@ -214,7 +214,6 @@ public class NotificationPlayer implements OnCompletionListener {
     }
 
     public void onCompletion(MediaPlayer mp) {
-
         /* TI FM UI port -start */
         if (SystemProperties.OMAP_ENHANCEMENT) {
                String FM_UNMUTE_CMD = "com.ti.server.fmunmutecmd";
@@ -225,7 +224,6 @@ public class NotificationPlayer implements OnCompletionListener {
                mCompletionThread.mCmd.context.sendBroadcast(fmunmute);
         }
         /* TI FM UI port -stop */
-
         if (mAudioManager != null) {
             mAudioManager.abandonAudioFocus(null);
         }

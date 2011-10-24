@@ -111,6 +111,7 @@ struct AwesomePlayer {
 
     void postAudioEOS();
     void postAudioSeekComplete();
+
 #ifdef OMAP_ENHANCEMENT
     void releaseRenderedBuffer(const sp<IMemory>& mem);
 #endif

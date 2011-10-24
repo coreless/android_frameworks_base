@@ -67,7 +67,6 @@ sp<IOMXRenderer> IOMX::createRenderer(
             displayWidth, displayHeight, rotate, isS3D, numOfOpBuffers);
 }
 #endif
-
 sp<IOMXRenderer> IOMX::createRendererFromJavaSurface(
         JNIEnv *env, jobject javaSurface,
         const char *componentName,

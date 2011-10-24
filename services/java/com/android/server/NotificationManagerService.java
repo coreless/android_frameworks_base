@@ -82,7 +82,6 @@ import java.util.Random;
 /* TI FM UI port -start */
 import android.os.SystemProperties;
 /* TI FM UI port -stop */
-
 /** {@hide} */
 public class NotificationManagerService extends INotificationManager.Stub
 {
@@ -1139,11 +1138,9 @@ public class NotificationManagerService extends INotificationManager.Stub
                     mSoundNotification = r;
                     // do not play notifications if stream volume is 0
                     // (typically because ringer mode is silent).
-
                     if (audioManager.getStreamVolume(audioStreamType) != 0) {
                         long identity = Binder.clearCallingIdentity();
                         try {
-
                         /* TI FM UI port -start */
                         if (SystemProperties.OMAP_ENHANCEMENT) {
                              Slog.d(TAG,"sending mute to fm");
@@ -1156,7 +1153,6 @@ public class NotificationManagerService extends INotificationManager.Stub
                             mSound.play(mContext, uri, looping, audioStreamType);
                          }
                         /* TI FM UI port -stop */
-
                         }
                         finally {
                             Binder.restoreCallingIdentity(identity);
@@ -1303,7 +1299,6 @@ public class NotificationManagerService extends INotificationManager.Stub
             long identity = Binder.clearCallingIdentity();
             try {
                 mSound.stop();
-
                 /* TI FM UI port -start */
                 if (SystemProperties.OMAP_ENHANCEMENT) {
                     String FM_UNMUTE_CMD = "com.ti.server.fmunmutecmd";

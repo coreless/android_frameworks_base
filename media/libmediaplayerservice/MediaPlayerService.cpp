@@ -744,6 +744,7 @@ player_type getPlayerType(int fd, int64_t offset, int64_t length)
 #endif
     if (ident == 0x43614c66) // 'fLaC'
         return FLAC_PLAYER;
+
     // Some kind of MIDI?
     EAS_DATA_HANDLE easdata;
     if (EAS_Init(&easdata) == EAS_SUCCESS) {
@@ -1034,7 +1035,6 @@ status_t MediaPlayerService::Client::resume() {
 
     return p->resume();
 }
-
 #ifdef OMAP_ENHANCEMENT
 status_t MediaPlayerService::Client::requestVideoCloneMode(bool enable) {
     sp<MediaPlayerBase> p = getPlayer();
@@ -1042,7 +1042,6 @@ status_t MediaPlayerService::Client::requestVideoCloneMode(bool enable) {
 
     return p->requestVideoCloneMode(enable);
 }
-
 #endif
 
 status_t MediaPlayerService::Client::prepareAsync()

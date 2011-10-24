@@ -158,7 +158,6 @@ PixelFormat SurfaceFlinger::getFormat() const
     return graphicPlane(0).displayHardware().getFormat();
 }
 #endif
-
 sp<IMemoryHeap> SurfaceFlinger::getCblk() const
 {
     return mServerHeap;

@@ -231,6 +231,7 @@ void JNICameraContext::postData(int32_t msgType, const sp<IMemory>& dataPtr)
         break;
     }
 }
+
 #ifdef OMAP_ENHANCEMENT
 void JNICameraContext::postDataTimestamp(nsecs_t timestamp, int32_t msgType, const sp<IMemory>& dataPtr,
         uint32_t offset, uint32_t stride)

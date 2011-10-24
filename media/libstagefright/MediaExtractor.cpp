@@ -37,7 +37,6 @@
 #ifdef OMAP_ENHANCEMENT
 #include "include/ASFExtractor.h"
 #endif
-
 namespace android {
 
 sp<MetaData> MediaExtractor::getMetaData() {

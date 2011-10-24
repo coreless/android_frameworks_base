@@ -23,12 +23,12 @@
 #include <media/IMediaPlayerService.h>
 #include <media/IMediaRecorder.h>
 #include <media/IOMX.h>
+
 #include <utils/Errors.h>  // for status_t
 
 #ifdef OMAP_ENHANCEMENT
 #include <media/OverlayRenderer.h>
 #endif
-
 namespace android {
 
 enum {
@@ -145,7 +145,6 @@ public:
         remote()->transact(GET_OMX, data, &reply);
         return interface_cast<IOMX>(reply.readStrongBinder());
     }
-
 #ifdef OMAP_ENHANCEMENT
     virtual sp<IOverlayRenderer> getOverlayRenderer() {
         Parcel data, reply;

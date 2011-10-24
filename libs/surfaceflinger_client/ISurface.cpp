@@ -119,7 +119,7 @@ public:
         Parcel data, reply;
         data.writeInterfaceToken(ISurface::getInterfaceDescriptor());
         data.writeInt32(offset);
-        remote()->transact(POST_BUFFER, data, &reply, IBinder::FLAG_ONEWAY);
+        remote()->transact(POST_BUFFER, data, &reply);
     }
 
     virtual void unregisterBuffers()
@@ -144,7 +144,6 @@ public:
         remote()->transact(CREATE_OVERLAY, data, &reply);
         return OverlayRef::readFromParcel(reply);
     }
-
 #ifdef OMAP_ENHANCEMENT
    virtual sp<OverlayRef> createOverlay(
              uint32_t w, uint32_t h, int32_t format, int32_t orientation, int isS3D)
@@ -181,7 +180,6 @@ public:
         }
     }
 #endif
-
 };
 
 IMPLEMENT_META_INTERFACE(Surface, "android.ui.ISurface");
