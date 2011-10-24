@@ -64,16 +64,16 @@ LOCAL_C_INCLUDES:= \
         $(TOP)/frameworks/base/media/libstagefright/rtsp
 ifeq ($(OMAP_ENHANCEMENT),true)
 LOCAL_C_INCLUDES += \
-        $(TOP)/hardware/ti/omap4/omap3/liboverlay
+        $(TOP)/hardware/ti/omap3/liboverlay
 endif
 
 ifeq ($(TARGET_BOARD_PLATFORM),omap4)
 LOCAL_C_INCLUDES +=					\
-	hardware/ti/omap4/omx/ducati/domx/system/omx_core/inc \
-	hardware/ti/omap4/omap3/camera-omap4/inc
+	hardware/ti/omx/ducati/domx/system/omx_core/inc \
+	hardware/ti/omap3/camera-omap4/inc
 endif
 ifeq ($(OMAP_ENHANCEMENT),true)
-LOCAL_C_INCLUDES += $(TOP)/hardware/ti/omap4/omap3/liboverlay
+LOCAL_C_INCLUDES += $(TOP)/hardware/ti/omap3/liboverlay
 endif
 LOCAL_SHARED_LIBRARIES := \
         libbinder         \
